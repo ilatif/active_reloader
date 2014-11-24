@@ -43,7 +43,13 @@ In above code snippet `ActiveReloader` will listen for changes in your project a
 
 ## How it works?
 
-`ActiveReloader` sends Ajax requests to `active_reloader.php` at regular intervals. Code in `active_reloader.php` checks for changes in file and return appropriate response. You might be wondering why Ajax requests when there are better ways to do this like WebSockets, Server-Sent Events etc.? Server-Sent Events are quite efficient than Ajax requests as they establish a single long-lived HTTP connection and there is no need for client to establish new connections. But it also requires some extra effort to write code and sends response in a particular format. It also requires use of `ob_flush` and `flush` which might not be acceptable to you because of your application's setting. WebSockets on the other hand requires Evented server which itself is a quite hectic task when it comes to integrate it with PHP on Windows. So I decided to use Ajax polling because it's a simple and reliable mechanism and doesn't require any extra effort. Plus you are only using it locally while you are developing so it is not going to hurt performance.
+`ActiveReloader` sends Ajax requests to `active_reloader.php` at regular intervals. Code in `active_reloader.php` checks for changes in file and return appropriate response. You might be wondering why Ajax requests when there are better ways to do this like WebSockets, Server-Sent Events etc.?
+
+Server-Sent Events are quite efficient than Ajax requests as they establish a single long-lived HTTP connection and there is no need for client to establish new connections. But it also requires some extra effort to write code and sends response in a particular format. It also requires use of `ob_flush` and `flush` which might not be acceptable to you because of your application's setting.
+
+WebSockets on the other hand requires Evented server which itself is a quite hectic task when it comes to integrate it with PHP on Windows.
+
+So I decided to use Ajax polling because it's a simple and reliable mechanism and doesn't require any extra effort. Plus you are only using it locally while you are developing so it is not going to hurt performance.
 
 ## Beware
 

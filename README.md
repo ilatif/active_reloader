@@ -3,7 +3,7 @@ ActiveReloader
 
 This is a `PHP` and `jQuery` based library that reloads page automatically as soon as you write new code or update existing code and save that particular file or whenever you add / remove some icon, image, css file from your project. The main goal of this library is to free web developers / designers from manually refreshing browser after making changes.
 
-Manually refreshing browser again and again is a hassel. `ActiveReloader` will smoothly handle that part and you will see a huge difference in your productivity.
+Manually refreshing browser again and again is a hassle. `ActiveReloader` will smoothly handle that part and you will see a huge difference in your productivity.
 
 See following demo where browser is automatically getting refreshed to pick-up new changes as soon as user is saving the file.
 
@@ -11,7 +11,7 @@ See following demo where browser is automatically getting refreshed to pick-up n
 
 ## Configuration
 
-You need both `PHP` and `jQuery` in-order to run this library smoothly. First download `active_reloader.php` and save it in your project's root path. Make sure you can access `active_reloader.php` at `http://your_server/your_project/active_reloader.php` or at whatever routing scheme you are using. Next download `active_reloader.js` and place it in your project at your preffered place (under `javascripts` folder maybe). Next include `active_reloader.js` in html by using popular `script` tag (make sure to include `script` tag for `active_reloader.js` after `jQuery` one). After that place following code in your html right after `script` tag for `active_reloader.js`.
+You need both `PHP` and `jQuery` in-order to run this library smoothly. First download `active_reloader.php` and save it in your project's root path. Make sure you can access `active_reloader.php` at `http://your_server/your_project/active_reloader.php` or at whatever routing scheme you are using. Next download `active_reloader.js` and place it in your project at your preferred place (under `javascripts` folder maybe). Next include `active_reloader.js` in html by using popular `script` tag (make sure to include `script` tag for `active_reloader.js` after `jQuery` one). After that place following code in your html right after `script` tag for `active_reloader.js`.
 
 	<script type="text/javascript">
 		ActiveReloader.start({path: "http://{your_server}/{your_project}/active_reloader.php"});
@@ -47,7 +47,7 @@ In above code snippet `ActiveReloader` will listen for changes in your project a
 
 ## Beware
 
-Don't push `active_reloader.php` and `active_reloader.js` and it's configuration code to your production server in any case. This library is only intented to be used locally during development process.
+Don't push `active_reloader.php` and `active_reloader.js` and it's configuration code to your production server in any case. This library is only intended to be used locally during development process.
 
 ## Contributing
 

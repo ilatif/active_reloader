@@ -62,4 +62,4 @@ Don't push `active_reloader.php` and `active_reloader.js` and it's configuration
 3. Report issues
 4. Submit Pull Requests
 
-**Please don't forget to `Star` this repo if you find this helpful and share it with your friends too.**
+**Please don't forget to `Star` this repo if you find this helpful and share it with your friends too.** 

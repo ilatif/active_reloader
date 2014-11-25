@@ -54,4 +54,3 @@
 	}
 	$active_reloader = new Active_Reloader();
 	$active_reloader->inform_about_reloading();
-	

@@ -5,13 +5,20 @@
 		var $directories;
 
 		public function __construct() {
-			$this->base_path           = dirname(__FILE__);
-			$this->last_reload_time    = isset($_GET['last_reload_time']) ? $_GET['last_reload_time'] : 0;
-			$this->exclude_directories = isset($_GET['exclude_directories']) ? $this->_prepare_array($_GET['exclude_directories']) : array();
+			$this->base_path             = dirname(__FILE__);
+			$this->last_reload_time      = isset($_GET['last_reload_time']) ? $_GET['last_reload_time'] : 0;
+			$this->exclude_directories   = isset($_GET['exclude_directories']) ? $this->_prepare_array($_GET['exclude_directories']) : array();
+			$this->start_loop_time       = time();
+			$this->loop_increment_factor = $this->last_reload_time == 0 ? -1 : 25;
+			$this->end_loop_time         = $this->start_loop_time + $this->loop_increment_factor;
 		}
 
 		public function inform_about_reloading() {
-			$reloading_status = $this->_check_for_reloading($this->base_path);
+			$reloading_status = 0;
+			while($this->start_loop_time <= $this->end_loop_time) {
+				$reloading_status      = $this->_check_for_reloading($this->base_path);
+				$this->start_loop_time = time();
+			}
 			$this->_inform_about_reloading($reloading_status);
 		}
 

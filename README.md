@@ -25,7 +25,7 @@ Following are available configuration options.
 
 **path** *required* - absolute path of `active_reloader.php`
 
-**exclude_directories** *optional* - Presently `ActiveReloader` listens for changes in all files under all directories in your project root. You might want to exclude some directories and don't want to listen for their changes. You can use `exclude_directories` setting for this purpose. You need to pass directories in string form and can separate multiple directories with commas. For example:
+**exclude_directories** *optional* - By-default `ActiveReloader` listens for changes in all files under all directories in your project root. You might want to exclude some directories and don't want to listen for their changes. You can use `exclude_directories` setting for this purpose. You need to pass directories in string form and can separate multiple directories with commas. For example:
 
 	<script type="text/javascript">
 		ActiveReloader.start({path: "http://{your_server}/{your_project}/active_reloader.php", exclude_directories: "application/logs, system"});
@@ -33,23 +33,23 @@ Following are available configuration options.
 	
 In above code snippet `ActiveReloader` will not listen for changes in files under `application/logs` and `system` directories. Please make sure to provide relative paths according to your project's root in `exclude_directories` option.
 
-**delay** *optional* - Presently `ActiveReloader` listens for changes after each 01 second. You can pass time in milliseconds to listen for changes after that particular time. For example:
+**delay** *optional* - `ActiveReloader` sends request to listen for changes after 01 second when page loads for the very first time and then sends new requests periodically after 01 second on successful completion of former request. You can pass time in milliseconds to override this setting. For example:
 
 	<script type="text/javascript">
 		ActiveReloader.start({path: "http://{your_server}/{your_project}/active_reloader.php", delay: 2000});
 	</script>
 	
-In above code snippet `ActiveReloader` will listen for changes in your project after each 02 seconds.
+In above code snippet `ActiveReloader` will send new request to listen for changes in your project after 02 seconds on successful completion of former request.
 
 ## How it works?
 
-`ActiveReloader` sends Ajax requests to `active_reloader.php` at regular intervals. Code in `active_reloader.php` checks for changes in file and return appropriate response. You might be wondering why Ajax requests when there are better ways to do this like WebSockets, Server-Sent Events etc.?
+`ActiveReloader` sends Ajax requests in a long-polling manner to `active_reloader.php` at regular intervals. Code in `active_reloader.php` checks for changes in files and return appropriate response in a long-polling way. Every request to `active_reloader.php` runs `loop` for `25 seconds` to see if some file is changed. If some file gets changed between those `25 seconds` response will be returned immediately to client. Long-polling removes need to send requests after each 01 second to listen for changes, thus not affecting your local server's performance by any means. You might be wondering why Ajax requests when there are better ways to do this like WebSockets, Server-Sent Events etc.?
 
 Server-Sent Events are quite efficient than Ajax requests as they establish a single long-lived HTTP connection and there is no need for client to establish new connections. But it also requires some extra effort to write code and sends response in a particular format. It also requires use of `ob_flush` and `flush` which might not be acceptable to you because of your application's setting.
 
-WebSockets on the other hand requires Evented server which itself is a quite hectic task when it comes to integrate it with PHP on Windows.
+WebSockets on the other hand requires Evented Server which itself is a quite hectic task when it comes to integrate it with PHP on Windows.
 
-So I decided to use Ajax polling because it's a simple and reliable mechanism and doesn't require any extra effort. Plus you are only using it locally while you are developing so it is not going to hurt performance.
+So I decided to use Ajax long-polling because it's a simple and reliable mechanism and doesn't require any extra effort. Plus you are only using it locally while you are developing so it is not going to hurt performance.
 
 ## Beware
 

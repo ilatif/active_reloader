@@ -11,18 +11,22 @@
 			$this->start_loop_time       = time();
 			$this->loop_increment_factor = $this->last_reload_time == 0 ? -1 : 25;
 			$this->end_loop_time         = $this->start_loop_time + $this->loop_increment_factor;
+			$this->files                 = array();
 		}
 
 		public function inform_about_reloading() {
 			$reloading_status = 0;
 			while($this->start_loop_time <= $this->end_loop_time) {
-				$reloading_status      = $this->_check_for_reloading($this->base_path);
+				if (count($this->files) == 0) {
+					$this->_collect_files($this->base_path);
+				}
+				$reloading_status = $this->_check_for_reloading();
 				$this->start_loop_time = time();
 			}
 			$this->_inform_about_reloading($reloading_status);
 		}
 
-		private function _check_for_reloading($path) {
+		private function _collect_files($path) {
 			$items = scandir($path);
 			foreach($items as $item) {
 				$item_path = "$path/$item";
@@ -33,10 +37,20 @@
 							$this->_inform_about_reloading(1);
 						}
 					}
+					$this->files[] = $item_path;
 				} else if (is_dir($item_path)) {
 					if ($item[0] != "." && in_array($item_path, $this->exclude_directories) === FALSE) {
-						$this->_check_for_reloading($item_path);
+						$this->_collect_files($item_path);
 					}
+				}
+			}
+		}
+
+		private function _check_for_reloading() {
+			foreach($this->files as $file) {
+				$filemtime = filemtime($file);
+				if ($filemtime >= $this->last_reload_time) {
+					$this->_inform_about_reloading(1);
 				}
 			}
 			return 0;
